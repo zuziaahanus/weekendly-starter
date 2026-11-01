@@ -44,11 +44,24 @@ import "./ATextarea.scss";
 //   z kroku 3 uruchamia styl z ATextarea.scss). Dorzuć trzeci z `isDisabled` i sprawdź,
 //   czy pole jest wyszarzone i nie da się w nie pisać.
 
-type TextareaProps = ComponentPropsWithRef<"textarea">;
+type TextareaProps = ComponentPropsWithRef<"textarea"> & {
+  isDisabled?: boolean;
+  isInvalid?: boolean;
+};
 
-export const ATextarea = (textareaProps: TextareaProps) => (
+export const ATextarea = ({
+  isDisabled = false,
+  isInvalid = false,
+  disabled = false,
+  className = "",
+  rows = 3,
+  ...textareaProps
+}: TextareaProps) => (
   <textarea
     {...textareaProps}
-    className="textarea"
+    rows={rows}
+    disabled={disabled || isDisabled}
+    aria-invalid={isInvalid || textareaProps["aria-invalid"] || undefined}
+    className={["textarea", className].join(" ").trim()}
   />
 );
